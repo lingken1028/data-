@@ -8,7 +8,7 @@
   <script src="https://apis.google.com/js/api.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://apis.google.com/js/client.js?onload=initClient"></script>
-  <script>
+  <script >
     $(document).ready(function() {
       var data = []; // 存储Excel数据的数组
       var displayData = []; // 显示的数据
@@ -25,9 +25,9 @@
             var sheetData = response.content;
             data = parseSheetData(sheetData);
             // 过滤掉全空数据
-            displayData = data
-      
+            displayData = data.slice();
             displayTable();
+            
           },
           error: function(error) {
             console.error('Error loading file from URL: ' + error);
@@ -332,14 +332,7 @@
     $(document).off('click', '.deleteButton').on('click', '.deleteButton', function() {
       var index = $(this).data('index');
       displayData.splice(index, 1);
-      data.splice(index, 1); // 从data数组中删除对应数据
-      displayTable();
-    });
-    
-    $(document).on('click', '.deleteButton', function() {
-      var index = $(this).data('index');
-      displayData.splice(index, 1);
-      data.splice(index, 1); // 从data数组中删除对应数据
+      //data.splice(index, 1); // 从data数组中删除对应数据
       displayTable();
     });
     
@@ -355,8 +348,6 @@
       });
     
       nameSortOrder *= -1; // 切换排序顺序
-    
-      data = displayData;
       displayTable();
     });
     
@@ -385,8 +376,6 @@
       });
     
       dateSortOrder *= -1; // 切换排序顺序
-    
-      data = displayData;
       displayTable();
     });
     
@@ -412,11 +401,8 @@
       });
     
       amountSortOrder *= -1; // 切换排序顺序
-    
-      data = displayData;
       displayTable();
     });
-    
     
     
     // 刷新表格
@@ -424,6 +410,9 @@
       previousSearchData = [];
       displayData = data.slice();
       displayTable();
+      amountSortOrder=1;
+      dateSortOrder = 1;
+      nameSortOrder=1;
       $('#addNameInput').val('');
       $('#addPhoneInput').val('');
       $('#addDateInput').val('');
@@ -440,7 +429,7 @@
     
     // 上传数据到Excel
     $('#uploadButton').click(function() {
-      var jsonData = JSON.stringify(data); // 将数据转换为JSON字符串
+      var jsonData = JSON.stringify(displayData); // 将数据转换为JSON字符串
       fetch("https://script.google.com/macros/s/AKfycbyDhl0MYvJfonUAXZpVBIlaNhwFIKmFW0BykpFfkoPVg5mFRBPqYFAZD63TKu0O9DL84Q/exec", {
         method: 'POST',
         cache:"no-cache",
@@ -457,6 +446,7 @@
       .catch(function(error) {
         console.error(error);
       });
+      data=displayData
       alert("更新成功")
     });
     
@@ -551,7 +541,7 @@
     }
     if (oldValue !== null) {
     displayData[index] = oldValue;
-    data[index] = oldValue; // 更新data数组中的对应数据
+    //data[index] = oldValue; // 更新data数组中的对应数据
     displayTable();
     }
     });
@@ -726,6 +716,8 @@
       height: 40px;
       background-color: rgba(0, 0, 0, 0.25);
       border-radius: 20px;
+      transition: all 0.4s ease;
+      cursor: pointer;
     }
     .g:after {
         content: "";
@@ -736,7 +728,6 @@
         background-color: white;
         top: 1px;
         left: 1px;
-        transition: all 1s;
     }
     input[type="checkbox"]:checked + .g::after {
         top: auto;
@@ -759,6 +750,9 @@
       width: 350px;
       font-size: 20px;
       color: #333;
+    }
+    .k{
+      margin-left: 10px;
     }
    
   </style>
@@ -843,6 +837,8 @@
     </div>
     <input class="f" type="checkbox" id="usePreviousSearchCheckbox" name="usePreviousSearchCheckbox">
     <label for="usePreviousSearchCheckbox" class="g"></label>
+    <a href="https://lingken1028.github.io/data-/caozuo%20.pdf" target="_blank">
+      <img widht="100" height="60" src="https://github.com/lingken1028/data-/blob/main/1.png?raw=true"></a>
   </div>
   <br>
   <table id="dataTable">
