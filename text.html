@@ -559,7 +559,7 @@
     $(document).on('click', '.editButton', function() {
     var index = $(this).data('index');
     var oldValue = displayData[index];
-    var num = prompt('要修改什么: [0]姓名 , [1]电话号码 , [2]日期 , [3]收据 , [4]金额 , [5]备注 , [6]合捐');
+    var num = prompt('修改输入: [0]姓名 , [1]电话号码 , [2]日期 , [3]收据 , [4]金额 , [5]备注 , [6]合捐');
     switch(num) {
       case '0':
           var newname = prompt('姓名:',oldValue[0]);
@@ -589,7 +589,7 @@
           
           break;
       case '4':
-          var newamount = prompt('金额:',oldValue[4]);
+          var newamount = prompt('金额:',oldValue[4].replace('RM', ''));
           if(newamount){
             oldValue[num]="RM"+newamount;
           }
@@ -602,9 +602,9 @@
           }
           break;
       case '6':
-          var newremark1 = prompt('合捐:',oldValue[6]);
+          var newremark1 = prompt('合捐 (多个名字请加逗号):',oldValue[6]);
           if(newremark1){
-            oldValue[num]=newremark1;
+            oldValue[num]=newremark1.replace(/\uFF0C/g, ",");
           }
           
           break;
