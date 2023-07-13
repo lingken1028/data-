@@ -8,7 +8,7 @@
   <script src="https://apis.google.com/js/api.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://apis.google.com/js/client.js?onload=initClient"></script>
-  <script >
+  <script>
     $(document).ready(function() {
       var data = []; // 存储Excel数据的数组
       var displayData = []; // 显示的数据
@@ -380,6 +380,33 @@
     });
     
     
+    var receiptSortOrder = 1; // 跟踪排序顺序,初始值为1
+    
+    // 按收据排序
+    $('#sortReceiptButton').click(function() {
+      displayData.sort(function(a, b) {
+        if (a === displayData[0] || b === displayData[0]) {
+          return 0; // 跳过第一行的排序
+        }
+        if (a[3] === '') {
+          return 1; // 将 undefined 放在最后
+        }
+        if (b[3] === '') {
+          return -1; // 将 undefined 放在最后
+        }
+        if (a[3] < b[3]) {
+          return -1 * receiptSortOrder; // 小到大排序
+        }
+        if (a[3] > b[3]) {
+          return 1 * receiptSortOrder; // 大到小排序
+        }
+        return 0;
+      });
+    
+      receiptSortOrder *= -1; // 切换排序顺序
+      displayTable();
+    });
+    
     var amountSortOrder = 1; // 跟踪排序顺序,初始值为1
     
     // 按金额排序
@@ -413,6 +440,7 @@
       amountSortOrder=1;
       dateSortOrder = 1;
       nameSortOrder=1;
+      receiptSortOrder=1;
       $('#addNameInput').val('');
       $('#addPhoneInput').val('');
       $('#addDateInput').val('');
@@ -510,31 +538,50 @@
     switch(num) {
       case '0':
           var newname = prompt('姓名:',oldValue[0]);
-          oldValue[num]=newname;
+          if(newname){
+            oldValue[num]=newname;
+          }
           break;
       case '1':
           var newphone = prompt('手机:',oldValue[1]);
-          oldValue[num]=newphone;
+          if(newname){
+            oldValue[num]=newphone;
+          }
+          
           break;
       case '2':
           var newdate = prompt('日期:',oldValue[2]);
-          oldValue[num]=newdate;
+          if(newname){
+            oldValue[num]=newdate;
+          }
+          
           break;
       case '3':
           var newreceipt = prompt('收据:',oldValue[3]);
-          oldValue[num]=newreceipt;
+          if(newname){
+            oldValue[num]=newreceipt;
+          }
+          
           break;
       case '4':
           var newamount = prompt('金额:',oldValue[4]);
-          oldValue[num]="RM"+newamount;
+          if(newname){
+            oldValue[num]="RM"+newamount;
+          }
+          
           break;
       case '5':
           var newremark = prompt('备注:',oldValue[5]);
-          oldValue[num]=newremark;
+          if(newname){
+            oldValue[num]=newremark;
+          }
           break;
       case '6':
           var newremark = prompt('合捐:',oldValue[6]);
-          oldValue[num]=newremark;
+          if(newname){
+            oldValue[num]=newremark;
+          }
+          
           break;
       default:
         // code block
@@ -653,6 +700,7 @@
     }
     #sortNameButton,
     #sortDateButton,
+    #sortReceiptButton,
     #sortAmountButton {
       background-color: #a4ddcc;
       margin-top: auto;
@@ -847,7 +895,7 @@
         <th><button id="sortNameButton">姓名</button></th>
         <th>手机</th>
         <th><button id="sortDateButton">日期</button></th>
-        <th>收据</th>
+        <th><button id="sortReceiptButton">收据</button></th>
         <th><button id="sortAmountButton">金额</button></th>
         <th>备注</th>
         <th>合捐</th>
