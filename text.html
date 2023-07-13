@@ -521,12 +521,12 @@
             }
             if (j == 6 && cellData != "") {
               // = "合捐";
-              cellData='<button class="combineButton" data-index="' + i + '" style="background-color:#a8badb;color:black;border:none;font-weight:bold;;font-size:15px;">合捐</button>';
+              cellData='<button class="combineButton" data-index="' + i + '" style="background-color:#a8b4db;color:black;border:none;font-weight:bold;;font-size:15px;">合捐</button>';
             }
           }
           row += '<td>' + cellData + '</td>';
         }
-        row += '<td><button class="editButton " data-index="' + i + '">修改</button> <button class="deleteButton" data-index="' + i + '">删除</button></td>';
+        row += '<td><button class="editButton" data-index="' + i + '">修改</button> <button class="deleteButton" data-index="' + i + '">删除</button></td>';
         row += '</tr>';
         tableBody.append(row);
       }
@@ -671,7 +671,6 @@
     label {
       font-weight: bold;
     }
-    
     button {
       padding: 8px 16px;
       font-size: 14px;
@@ -699,19 +698,12 @@
       width: 120%;
     }
     #dataTable td {
-      padding: 8px;
-      border: 1px solid #ccc;
-      background-color:#a8badb;
-      border-radius:30px;
-      border: none;
-      text-align: center;
-      
+      background-color:#a8b4db;
     }
     #dataTable th,
     #dataTable td {
       padding: 8px;
       border: 1px solid #ccc;
-      background-color:#a8badb;
       border-radius:30px;
       border: none;
       text-align: center;
@@ -719,9 +711,10 @@
     #dataTable th {
       background-color: #a4ddcc;
       font-weight: bold;
-      text-align: center;
-      border-radius: 50px;
-      border: none;
+    }
+    .editButton,
+    .deleteButton{
+      background-color: #e1abab;
     }
     #sortNameButton,
     #sortDateButton,
@@ -831,9 +824,10 @@
   </style>
 </head>
 <body>
-  <video autoplay loop muted playsinline poster="polina.jpg" id="bgvid">
+  <!--<video autoplay loop muted playsinline poster="polina.jpg" id="bgvid">
     <source src="https://cdn.pixabay.com/vimeo/822213540/160767.mp4?width=1280&hash=b39db084819f75c766f49d038f7094f9f35233a5" type="video/mp4">
-  </video>
+  </video>-->
+  <img id="bgvid" src="https://cdn.pixabay.com/photo/2017/02/08/12/46/moon-2048727_1280.jpg">
   <div class="a">
     <button id="fileInput">
       <h1>赞助建新佛寺名单</h1>
