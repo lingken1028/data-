@@ -56,6 +56,10 @@
           if(date!=""){
             var formattedDate = formatDate2(date); // 格式化日期
           }
+          else{
+            var formattedDate =""
+          }
+          
           var newData = [name, phone, formattedDate, receipt, amount, remark,donation];
           parsedData.push(newData);
         }
@@ -84,7 +88,7 @@
             alert("金额必须是有效的数字");
             return;
           }
-          if(date!=""){
+          if(date!=""&& isNaN(date)){
             var formattedDate = formatDate1(date); // 格式化日期
           }
           if(amount!=""){
@@ -93,6 +97,7 @@
           var newData = [name, phone, formattedDate, receipt, amount, remark,donation];
           data.push(newData);
           updateExcelData();
+          displayData=data;
           displayTable();
           $('#addNameInput').val('');
           $('#addPhoneInput').val('');
@@ -102,7 +107,7 @@
           $('#addRemarkInput').val('');
           $('#addJointDonation').val('');
           $('#new').hide();
-          
+          func()
       });
       // 格式化日期
       function formatDate1(date) {
@@ -431,7 +436,26 @@
       displayTable();
     });
     
-    
+    //刷新func
+    function func(){
+      previousSearchData = [];
+      displayData = data.slice();
+      displayTable();
+      amountSortOrder=1;
+      dateSortOrder = 1;
+      nameSortOrder=1;
+      receiptSortOrder=1;
+      $('#addNameInput').val('');
+      $('#addPhoneInput').val('');
+      $('#addDateInput').val('');
+      $('#addReceiptInput').val('');
+      $('#addAmountInput').val('');
+      $('#addRemarkInput').val('');
+      $('#addJointDonation').val('');
+      $('#uploadButton').show();
+      $('#new').hide();
+      $('#usePreviousSearchCheckbox').prop('checked', false);
+    };
     // 刷新表格
     $('#refreshButton').click(function() {
       previousSearchData = [];
@@ -476,6 +500,7 @@
       });
       data=displayData
       alert("更新成功")
+      func()
     });
     
     
@@ -544,42 +569,42 @@
           break;
       case '1':
           var newphone = prompt('手机:',oldValue[1]);
-          if(newname){
+          if(newphone){
             oldValue[num]=newphone;
           }
           
           break;
       case '2':
-          var newdate = prompt('日期:',oldValue[2]);
-          if(newname){
-            oldValue[num]=newdate;
+          var newdate = prompt('日期 (格式为 yyyy/mm/dd):',formatDate(oldValue[2]));
+          if(newdate){
+            oldValue[num]=formatDate1(newdate.replace(/\//g, "-"));
           }
           
           break;
       case '3':
           var newreceipt = prompt('收据:',oldValue[3]);
-          if(newname){
+          if(newreceipt){
             oldValue[num]=newreceipt;
           }
           
           break;
       case '4':
           var newamount = prompt('金额:',oldValue[4]);
-          if(newname){
+          if(newamount){
             oldValue[num]="RM"+newamount;
           }
           
           break;
       case '5':
           var newremark = prompt('备注:',oldValue[5]);
-          if(newname){
+          if(newremark ){
             oldValue[num]=newremark;
           }
           break;
       case '6':
-          var newremark = prompt('合捐:',oldValue[6]);
-          if(newname){
-            oldValue[num]=newremark;
+          var newremark1 = prompt('合捐:',oldValue[6]);
+          if(newremark1){
+            oldValue[num]=newremark1;
           }
           
           break;
